@@ -1,14 +1,21 @@
 import React from 'react'
-import { View, Text, ActivityIndicator, ScrollView } from 'react-native'
+import { AppRegistry, View, Text, ActivityIndicator, ScrollView } from 'react-native'
 import axios from 'axios'
+// import { StackNavigator } from 'react-navigation';
+
+// import { Home } from './config/router'
 
 import SearchBar from './components/SearchBar'
 
-export default class App extends React.Component {
+class App extends React.Component {
+  // static navigationOptions = {
+  //   title: 'Welcome',
+  // };
   constructor(){
     super()
     this.state = {
       news: [],
+      searchKey: '',
     }
   }
 
@@ -23,6 +30,13 @@ export default class App extends React.Component {
     })
   }
 
+  setSearch(query) {
+    console.log('isi query : ', query);
+    this.setState({
+      searchKey: query
+    })
+  }
+
   componentDidMount(){
     console.log('jalan cuy!');
     this.getNews()
@@ -32,7 +46,7 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
         <Text style={styles.logo}>Hacktiv8 News</Text>
-        <SearchBar style={styles.search_bar}/>
+      <SearchBar style={styles.search_bar} setSearch={this.setSearch.bind(this)} />
         <Text style={styles.welcome}>
           Daftar ketertarikan mu! {this.state.news.length}
         </Text>
@@ -41,21 +55,28 @@ export default class App extends React.Component {
             ?
              <ActivityIndicator animation={true} />
             :
-              this.state.news.map((newsItem, index) => {
+              this.state.news.filter(newsItem => {
+                console.log('isi searchKey :', this.state.searchKey);
+                let patt = new RegExp(this.state.searchKey, 'gi')
+                console.log('jalan gak filternya : ', newsItem.title, patt.test(newsItem.title));
+                return patt.test(newsItem.title)
+              }).map((aNews, index) => {
+                console.log('isi a News : ', aNews);
                 return (
-                  <Text style={styles.title} key={index}>- {newsItem.title}</Text>
-
+                  <Text style={styles.title} key={index}>- {aNews.title}</Text>
                 )
               })
           }
         </ScrollView>
 
-
-
       </View>
     )
   }
 }
+
+// const SimpleApp = StackNavigator({
+//   Home: { screen: HomeScreen },
+// });
 
 const styles = {
   container: {
@@ -89,3 +110,5 @@ const styles = {
     paddingLeft: 20,
   }
 };
+
+AppRegistry.registerComponent('DikyAwesomeProject', () => App);

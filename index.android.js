@@ -4,20 +4,17 @@
  * @flow
  */
 
-import React, { Component } from 'react';
-import {
-  AppRegistry,
-} from 'react-native';
+// import React, { Component } from 'react';
+// import {
+//   AppRegistry,
+// } from 'react-native';
 
 import App from './src/App'
 
-export default class DikyAwesomeProject extends Component {
-  render() {
-    return (
-      <App/>
-    );
-  }
-}
-
-
-AppRegistry.registerComponent('DikyAwesomeProject', () => DikyAwesomeProject);
+// export default class DikyAwesomeProject extends Component {
+//   render() {
+//     return (
+//       <App/>
+//     );
+//   }
+// }
